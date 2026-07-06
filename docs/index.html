@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ダンジョンと畑のあいだで - エピソード一覧</title>
   <link rel="stylesheet" href="css/style.css">
+  <!-- 1. 外部のデータファイルを先に読み込む -->
+  <script src="js/stories-data.js"></script>
 </head>
 <body class="list-page">
   <div class="container">
@@ -12,50 +14,24 @@
     <ul id="story-list" class="story-list"></ul>
   </div>
 
-  <!-- 読み込み順序と実行タイミングを確実にするため、ここにインラインでデータを統合します -->
   <script>
-    const storyList = [
-      {
-        id: "1",
-        fileId: "story1",
-        title: "第1話：麻袋の役割",
-        synopsis: "フラックス村の麻畑で働くノア。ダンジョン都市フェルドを夢見る彼に、父ガレスは地味な『農家と麻袋の価値』を語り始める。"
-      },
-      {
-        id: "2",
-        fileId: "story2",
-        title: "第2話：手伝いと仕事",
-        synopsis: "言われたことをやる『手伝い』と、次を考える『仕事』の違い。父のクワと木剣の扱いに、ノアはただの農家ではない過去を感じ取る。"
-      },
-      {
-        id: "3",
-        fileId: "story3",
-        title: "第3話：道具を見る目",
-        synopsis: "毎日握る木剣、毎日歩く畑。何も見ていなかった自分に気づいたノアは、倉庫に眠る父の古い木箱に刻まれた歴史に目を向ける。"
-      },
-      {
-        id: "4",
-        fileId: "story4",
-        title: "第4話：帰ってくるために",
-        synopsis: "壊れる前に気づく水路の点検。村長ドノヴァンが語る、かつて最も慎重で『うるさかった』探索者・ガレスの泥臭い強さの真真。"
-      },
-      {
-        id: "5",
-        fileId: "story5",
-        title: "第5話：初めてのフェルド",
-        synopsis: "父と共に初めて訪れた巨大なダンジョン都市。そこでノアが目にしたのは、探索者だけでなく、無数の職人や商人が回す広大な世界だった。"
-      }
-    ];
-
+    // 2. HTMLの骨組みがブラウザに読み込まれてから安全に実行する
     window.addEventListener('DOMContentLoaded', () => {
       const listContainer = document.getElementById('story-list');
-      if (!listContainer) return;
+      const stories = window.STORIES_DATA; // 外部ファイルから渡ってきたデータ
       
-      storyList.forEach(story => {
+      if (!listContainer || !stories) {
+        console.error("データまたは表示領域が見つかりません");
+        return;
+      }
+      
+      // データにある分だけループしてカードを生成（今は第1話のみ）
+      Object.keys(stories).forEach(id => {
+        const story = stories[id];
         const li = document.createElement('li');
         li.className = 'story-item';
         li.innerHTML = `
-          <a href="viewer.html?id=${story.id}" class="story-title">${story.title}</a>
+          <a href="viewer.html?id=${id}" class="story-title">${story.title}</a>
           <p class="story-synopsis">${story.synopsis}</p>
         `;
         listContainer.appendChild(li);
