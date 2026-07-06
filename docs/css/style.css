@@ -147,28 +147,36 @@ body {
 /* ==========================================================================
    次の話へ進むボタンのスタイル（縦書き・スマホ完全最適化版）
    ========================================================================= */
+/* style.css の末尾に追加・修正 */
 .next-story-wrapper {
-  display: inline-block; /* 縦書きの中で1つの独立した行にする */
-  margin-left: 3.5em;    /* 本文の最終行との間隔をしっかり取る */
-  padding: 30px 0;       /* 上下の余白（画面の中央付近に配置） */
+  display: inline-block;
+  margin-left: 3.5em;
+  padding: 30px 0;
   vertical-align: top;
+  text-align: center; /* 中の要素を縦にまっすぐ並べる */
 }
 
 .next-story-btn {
-  display: inline-block; /* ★blockからinline-blockに変更（これで縦の引き伸ばしが止まります） */
-  height: auto;          /* ★縦の長さを文字の長さに合わせる */
-  width: auto;           /* ★横の幅（行の厚み）を文字に合わせる */
-  padding: 20px 15px;    /* ボタンの内側の余白（上下・左右） */
-  background-color: #8b5a2b; /* テーマカラーの茶色 */
-  color: #ffffff !important;  /* 文字を白に */
+  display: inline-block;
+  height: auto;
+  width: auto;
+  padding: 20px 15px;
+  background-color: #8b5a2b;
+  color: #ffffff !important;
   text-decoration: none;
   font-weight: bold;
   border-radius: 4px;
   text-align: center;
-  white-space: nowrap;   /* 文字の途中で改行させない */
+  white-space: nowrap;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.next-story-btn:hover {
-  background-color: #5c4033;
+/* ボタンの下（縦書きにおける左・次への流れ）に続く三点リーダー */
+.next-story-leader {
+  font-family: "Hiragino Mincho ProN", "MS Mincho", serif;
+  font-size: 18px;
+  color: #8b5a2b;
+  margin-top: 15px; /* ボタンとの間隔 */
+  writing-mode: vertical-rl;
+  -webkit-writing-mode: vertical-rl;
 }
