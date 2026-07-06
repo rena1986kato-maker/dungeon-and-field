@@ -143,3 +143,33 @@ body {
 .viewer-footer {
   display: none;
 }
+
+/* ==========================================================================
+   次の話へ進むボタンのスタイル（縦書き対応）
+   ========================================================================== */
+.next-story-wrapper {
+  display: inline-block; /* 縦書きの中で横並び（縦方向のブロック）にする */
+  margin-left: 3.0em;    /* 左側の行（次の要素）との間隔を広く取る */
+  padding: 40px 0;       /* ボタンの上下（縦書きにおける左右）に余白を作る */
+  vertical-align: top;
+}
+
+.next-story-btn {
+  display: block;
+  padding: 15px 30px;
+  background-color: #8b5a2b; /* テーマカラーの茶色 */
+  color: #ffffff !important;  /* 文字を白に */
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+  text-align: center;
+  /* 縦書きの中で文字を正しく読ませるための指定 */
+  text-combine-upright: none; 
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.next-story-btn:hover {
+  background-color: #5c4033; /* ホバー時に少し暗く */
+}
+
