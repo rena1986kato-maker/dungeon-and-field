@@ -18,7 +18,6 @@ window.CURRENT_STORY_CONTENT = `
 <!-- story1.js の書き換えイメージ -->
 <div class="next-story-wrapper">
   <a href="viewer.html?id=2" class="next-story-btn">第二話「手伝いと仕事」へ</a>
-  <div class="next-story-leader">……</div>
 </div>
 
 `;
