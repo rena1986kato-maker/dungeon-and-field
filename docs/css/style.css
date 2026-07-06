@@ -1,34 +1,134 @@
-/* 共通設定 */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif; background-color: #fcf9f2; color: #2b2b2b; }
-
-/* 一覧ページ用のスタイル */
-.list-page .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
-.list-page h1 { font-size: 24px; margin-bottom: 30px; border-bottom: 2px solid #e0dbd1; padding-bottom: 10px; color: #4a3c31; }
-.story-list { list-style: none; }
-.story-item { background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.04); border: 1px solid #e8e3d7; }
-.story-title { font-size: 18px; font-weight: bold; color: #8c6239; text-decoration: none; }
-.story-title:hover { text-decoration: underline; }
-.story-synopsis { font-size: 14px; color: #666; margin-top: 8px; line-height: 1.5; }
-
-/* ビューアページ用のスタイル（全画面固定・縦スクロール禁止） */
-.viewer-page { height: 100vh; display: flex; flex-direction: column; overflow: hidden; user-select: none; }
-.viewer-header { height: 56px; background: #fff; border-bottom: 1px solid #e0dbd1; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; flex-shrink: 0; }
-.viewer-header h1 { font-size: 16px; color: #4a3c31; }
-.back-link { font-size: 14px; color: #8c6239; text-decoration: none; font-weight: bold; }
-.back-link:hover { text-decoration: underline; }
-
-/* 本文表示エリア：画面の高さに合わせて自動で右に段組みを作る */
-.viewer-main { flex: 1; overflow-x: auto; overflow-y: hidden; padding: 32px 40px; scroll-snap-type: x mandatory; }
-.book-columns {
-  height: 100%;
-  white-space: pre-wrap;
-  font-size: 18px;
-  line-height: 2.2;
-  letter-spacing: 0.05em;
-  column-width: min(450px, 85vw);
-  column-gap: 50px;
-  scroll-snap-align: start;
+/* 全体の共通設定 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.viewer-footer { height: 40px; background: #f0ede4; border-top: 1px solid #e0dbd1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #777; flex-shrink: 0; }
+body {
+  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  background-color: #f9f6f0; /* 温かみのある背景色 */
+  color: #333333;
+}
+
+/* ==========================================================================
+   一覧画面（index.html）用のスタイル
+   ========================================================================== */
+.list-page {
+  padding: 20px;
+}
+
+.list-page .container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.list-page h1 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #5c4033;
+  border-bottom: 2px solid #e6dfd3;
+  padding-bottom: 10px;
+}
+
+.story-list {
+  list-style: none;
+}
+
+.story-item {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0,05);
+}
+
+.story-title {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  color: #8b5a2b;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+.story-title:hover {
+  text-decoration: underline;
+}
+
+.story-synopsis {
+  font-size: 14px;
+  color: #666666;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   閲覧画面（viewer.html）用の縦書き・横スクロールスタイル
+   ========================================================================== */
+.viewer-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;      /* 画面の高さを端末にぴったり合わせる */
+  overflow: hidden;    /* 外枠の余計なスクロールを禁止 */
+}
+
+/* 固定ヘッダー */
+.viewer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e6dfd3;
+  flex-shrink: 0;      /* ヘッダーが潰れないように固定 */
+  z-index: 10;
+}
+
+.viewer-header h1 {
+  font-size: 16px;
+  color: #333333;
+}
+
+.back-link {
+  font-size: 14px;
+  color: #8b5a2b;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* 本文を表示するメイン領域 */
+.viewer-main {
+  flex-grow: 1;        /* ヘッダー以外の画面残りの高さをすべて使う */
+  width: 100%;
+  padding: 30px 20px 40px 20px;
+  
+  /* 縦書きのスクロールを制御する最重要プロパティ */
+  display: block;
+  writing-mode: vertical-rl;        /* 縦書き（右から左へ行が流れる） */
+  -webkit-writing-mode: vertical-rl;
+  
+  overflow-x: auto;                 /* 横方向（右から左）のスクロールを許可 */
+  overflow-y: hidden;               /* 縦方向のハミ出しを禁止してロック */
+  -webkit-overflow-scrolling: touch; /* スマホでの慣性スクロールを滑らかにする */
+}
+
+/* 小説の本文テキスト */
+.story-content {
+  height: 100%;                     /* 親要素（viewer-main）の高さを限界まで使う */
+  font-family: "Hiragino Mincho ProN", "MS Mincho", serif; /* 小説らしい明朝体 */
+  font-size: 16px;
+  line-height: 2.0;                 /* 行間を広げて読みやすく */
+  letter-spacing: 0.05em;
+}
+
+.story-content p {
+  margin-left: 1.5em;               /* 縦書きなので「行の下（左側）」に余白を作る */
+  text-indent: 1em;                 /* 文頭の一文字下げ */
+  max-height: 100%;                 /* 本文が下に突き抜けるのを防ぐ */
+}
+
+/* フッターは縦書き表示の邪魔になるため、スマホ版ビューアでは非表示にする */
+.viewer-footer {
+  display: none;
+}
