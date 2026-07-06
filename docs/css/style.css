@@ -145,30 +145,30 @@ body {
 }
 
 /* ==========================================================================
-   次の話へ進むボタンのスタイル（縦書き対応）
-   ========================================================================== */
+   次の話へ進むボタンのスタイル（縦書き・スマホ完全最適化版）
+   ========================================================================= */
 .next-story-wrapper {
-  display: inline-block; /* 縦書きの中で1つの独立した行（ブロック）にする */
+  display: inline-block; /* 縦書きの中で1つの独立した行にする */
   margin-left: 3.5em;    /* 本文の最終行との間隔をしっかり取る */
-  padding: 40px 0;       /* 上下の余白（全体の高さ中央寄りに） */
+  padding: 30px 0;       /* 上下の余白（画面の中央付近に配置） */
   vertical-align: top;
 }
 
 .next-story-btn {
-  display: block;
-  width: auto;           /* ★幅を文字に合わせる（縦書きなので「厚み」が自動になります） */
-  padding: 20px 15px;    /* ★上下（縦書きの左右）と、左右（縦書きの上下）の余白を微調整 */
+  display: inline-block; /* ★blockからinline-blockに変更（これで縦の引き伸ばしが止まります） */
+  height: auto;          /* ★縦の長さを文字の長さに合わせる */
+  width: auto;           /* ★横の幅（行の厚み）を文字に合わせる */
+  padding: 20px 15px;    /* ボタンの内側の余白（上下・左右） */
   background-color: #8b5a2b; /* テーマカラーの茶色 */
   color: #ffffff !important;  /* 文字を白に */
   text-decoration: none;
   font-weight: bold;
   border-radius: 4px;
   text-align: center;
-  white-space: nowrap;
+  white-space: nowrap;   /* 文字の途中で改行させない */
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .next-story-btn:hover {
-  background-color: #5c4033; /* ホバー時に少し暗く */
+  background-color: #5c4033;
 }
-
