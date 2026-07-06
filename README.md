@@ -1,2 +1,2 @@
 # dungeon-and-field
-小説
+小説、
