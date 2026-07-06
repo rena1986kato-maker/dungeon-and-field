@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ダンジョンと畑のあいだで - エピソード一覧</title>
   <link rel="stylesheet" href="css/style.css">
-  <!-- 1. 外部のデータファイルを先に読み込む -->
-  <script src="./js/stories-data.js"></script>
+  <!-- 軽量な一覧データのみを読み込む -->
+  <script src="./js/story-list.js"></script>
 </head>
 <body class="list-page">
   <div class="container">
@@ -15,17 +15,12 @@
   </div>
 
   <script>
-    // 2. HTMLの骨組みがブラウザに読み込まれてから安全に実行する
     window.addEventListener('DOMContentLoaded', () => {
       const listContainer = document.getElementById('story-list');
-      const stories = window.STORIES_DATA; // 外部ファイルから渡ってきたデータ
+      const stories = window.STORY_LIST; // 読み込むオブジェクト名を変更
       
-      if (!listContainer || !stories) {
-        console.error("データまたは表示領域が見つかりません");
-        return;
-      }
+      if (!listContainer || !stories) return;
       
-      // データにある分だけループしてカードを生成（今は第1話のみ）
       Object.keys(stories).forEach(id => {
         const story = stories[id];
         const li = document.createElement('li');
