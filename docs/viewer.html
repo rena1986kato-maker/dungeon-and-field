@@ -3,56 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>読み込み中... - ダンジョンと畑のあいだで</title>
+  <title>ダンジョンと畑のあいだで - 本文ビューア</title>
   <link rel="stylesheet" href="css/style.css">
-  <!-- タイトル等の整合性を取るために、ここでも一覧用の軽いデータを読み込んでおきます -->
-  <script src="./js/story-list.js"></script>
 </head>
 <body class="viewer-page">
-  <header class="viewer-header">
-    <h1 id="story-title">読み込み中...</h1>
-    <a href="index.html" class="back-link">一覧に戻る</a>
-  </header>
 
-  <main class="viewer-main">
-    <div id="story-content" class="story-content">
-      <p style="color: #888; text-align: center;">物語を読み込んでいます...</p>
+  <div class="novel-container" id="novel-container">
     </div>
-  </main>
 
   <script>
-    // ページが開いた瞬間に実行
-    const urlParams = new URLSearchParams(window.location.search);
-    const storyId = urlParams.get('id');
-    const storyInfo = window.STORY_LIST ? window.STORY_LIST[storyId] : null;
+    window.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('novel-container');
+      if (!container) return;
 
-    if (storyInfo) {
-      // 1. まずタイトルだけ先に表示させておく（体感速度向上）
-      document.title = `${storyInfo.title} - ダンジョンと畑のあいだで`;
-      
-      // 2. ★超重要：該当する本文ファイル（story1.js等）を狙い撃ちで読み込むタグを作る
+      // 1. URLから「?id=X」のパラメータを取得する（デフォルトは第1話）
+      const urlParams = new URLSearchParams(window.location.search);
+      const storyId = parseInt(urlParams.get('id'), 10) || 1;
+
+      // 2. 該当する話数の本文JSファイルを動的に生成して読み込む
       const script = document.createElement('script');
-      script.src = `./js/stories/story${storyId}.js`;
+      script.src = `js/stories/story${storyId}.js`;
       
-      // 3. 本文ファイルの読み込みが「完全に完了」したら、中身を画面に流し込む
       script.onload = () => {
-        const titleElement = document.getElementById('story-title');
-        const contentElement = document.getElementById('story-content');
-        
-        if (titleElement) titleElement.textContent = storyInfo.title;
-        if (contentElement) contentElement.innerHTML = window.CURRENT_STORY_CONTENT;
-      };
-      
-      // 4. 作ったタグをHTMLにドッキングして実行させる
-      document.head.appendChild(script);
+        // JSファイルが読み込まれると、グローバル変数「storyContent」が使えるようになります
+        if (!window.storyContent) {
+          container.innerHTML = '<p class="error-msg">ストーリーデータの読み込みに失敗しました。</p>';
+          return;
+        }
 
-    } else {
-      // エラー処理
-      window.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('story-title').textContent = "エラー";
-        document.getElementById('story-content').innerHTML = '<p style="color: #c00; text-align: center;">エピソードが見つかりません。</p>';
-      });
-    }
+        const data = window.storyContent;
+        
+        // 3. 本文のHTML組み立て（段落「p」を綺麗に並べる）
+        let paragraphsHtml = '';
+        data.paragraphs.forEach(p => {
+          paragraphsHtml += `<p>${p}</p>`;
+        });
+
+        // 4. 「次の話へ進むボタン」の制御（全30話以上の運用を見据えた動的ロジック）
+        // 次の話のID（現在のID + 1）
+        const nextId = storyId + 1;
+        let nextButtonHtml = '';
+        
+        // 今回は30話以上を想定しているため、ひとまず最大値を気にせずボタンを出します。
+        // （もし最終話に到達した際にボタンを消したい場合は「if (nextId <= 35)」などの条件を挟んで制御します）
+        nextButtonHtml = `
+          <div class="next-story-wrapper">
+            <a href="viewer.html?id=${nextId}" class="next-story-btn">次の一話へ</a>
+          </div>
+        `;
+
+        // 5. 画面にすべてを流し込む（縦書きの世界へ！）
+        container.innerHTML = `
+          <div class="story-section">
+            <h3 class="story-title">${data.title}</h3>
+            ${paragraphsHtml}
+            ${nextButtonHtml}
+          </div>
+        `;
+      };
+
+      script.onerror = () => {
+        container.innerHTML = '<p class="error-msg">該当するエピソード（ファイル）が見つかりません。</p>';
+      };
+
+      // ドキュメントにスクリプトを差し込んでロードを開始
+      document.head.appendChild(script);
+    });
   </script>
 </body>
 </html>
