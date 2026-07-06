@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ダンジョンと畑のあいだで - エピソード一覧</title>
   <link rel="stylesheet" href="css/style.css">
-  <!-- 軽量な一覧データのみを読み込む -->
   <script src="./js/story-list.js"></script>
 </head>
 <body class="list-page">
@@ -17,16 +16,22 @@
   <script>
     window.addEventListener('DOMContentLoaded', () => {
       const listContainer = document.getElementById('story-list');
-      const stories = window.STORY_LIST; // 読み込むオブジェクト名を変更
       
-      if (!listContainer || !stories) return;
+      // ★1. story-list.js側で定義している変数名に合わせてください
+      // もしJS側が「const storyList = ...」なら、グローバル変数（window.storyList）としてアクセスできます
+      const stories = window.storyList || window.STORY_LIST; 
       
-      Object.keys(stories).forEach(id => {
-        const story = stories[id];
+      if (!listContainer || !stories) {
+        console.error("一覧コンテナまたはストーリーデータが見つかりません。");
+        return;
+      }
+      
+      // ★2. 30話以上の配列データ（Array）をきれいにループ処理する標準的な書き方に変更
+      stories.forEach(story => {
         const li = document.createElement('li');
         li.className = 'story-item';
         li.innerHTML = `
-          <a href="viewer.html?id=${id}" class="story-title">${story.title}</a>
+          <a href="viewer.html?id=${story.id}" class="story-title">${story.title}</a>
           <p class="story-synopsis">${story.synopsis}</p>
         `;
         listContainer.appendChild(li);
