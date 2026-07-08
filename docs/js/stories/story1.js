@@ -1,6 +1,6 @@
 window.storyContent = {
   id: 1,
-  title: "第1話 麻袋の役割",
+  title: "第一話 麻袋の役割",
   paragraphs: [
     "サク、サク、と。",
     "湿った土を切り裂くように、クワの刃が穿つ。",
