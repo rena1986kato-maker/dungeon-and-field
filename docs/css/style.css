@@ -1,82 +1,151 @@
-/* 本文表示ページの全体設定 */
-body.viewer-page {
+/* ==========================================================================
+   共通設定 & 電子書籍風ベースデザイン
+   ========================================================================== */
+html, body {
   margin: 0;
   padding: 0;
-  background-color: #fbf9f5; /* 好みの背景色 */
-  color: #333333;
-  
-  /* ★超重要：画面全体が縦にスクロールするのを防ぎ、横スクロールに集中させる */
-  overflow-y: hidden; 
-  overflow-x: auto; 
   width: 100vw;
   height: 100vh;
+  background-color: #f4f0ea; /* 目に優しい高級感のある生成り色（和紙・書籍風） */
+  color: #222222;
+  font-family: "Georgia", "Hiragino Mincho ProN", "Yu Mincho", "MS Mincho", serif; /* 小説に適した明朝体 */
+  overflow: hidden; /* 画面全体の不要なスクロールを完全に禁止 */
 }
 
-/* 小説を包むコンテナ（ここが右から左へ横スクロールする主役です） */
+/* 一覧ページ用のコンテナ（必要に応じて） */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* ==========================================================================
+   ビューアページ（viewer.html）専用デザイン
+   ========================================================================== */
+
+/* 固定ヘッダー（常に画面上部に表示） */
+.viewer-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 60px;
+  background-color: #ede7de; /* 本文よりわずかに濃い色で区切りを意識 */
+  border-bottom: 1px solid #dfd5c6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  box-sizing: border-box;
+  z-index: 1000; /* 最前面に固定 */
+}
+
+/* ヘッダー内のタイトル */
+.viewer-header-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #5a4a3a;
+  margin: 0;
+}
+
+/* 一覧に戻るリンクボタン */
+.back-to-list-btn {
+  font-size: 0.9rem;
+  color: #8b4513;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  border: 1px solid #8b4513;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+.back-to-list-btn:hover {
+  background-color: #8b4513;
+  color: #ffffff;
+}
+
+/* 小説を包むコンテナ（固定ヘッダーの下に配置し、横スクロールさせる主役） */
 .novel-container {
   display: block;
   box-sizing: border-box;
   width: 100vw;
-  height: 100vh;
-  padding: 40px 20px 60px 20px; /* 上下の余白をしっかり確保 */
+  height: calc(100vh - 60px); /* 画面全体からヘッダーの高さを引く */
+  margin-top: 60px; /* ヘッダーに被らないようにマージンを確保 */
+  padding: 5vh 40px 8vh 40px; /* 上下の余白を画面比率で美しく確保 */
   
-  /* ★超重要：ここを縦書き・右から左スクロールのモードにする */
+  /* 縦書き・右から左スクロールのモード */
   writing-mode: vertical-rl;
   -webkit-writing-mode: vertical-rl;
   
-  /* ★超重要：ブラウザに横スクロールの発生を正しく認識させる */
+  /* 横スクロールを有効化 */
   overflow-x: auto;
   overflow-y: hidden;
-  -webkit-overflow-scrolling: touch; /* スマホでのスクロールを滑らかにする */
+  -webkit-overflow-scrolling: touch; /* スマホの慣性スクロール */
 }
 
-/* 各章・各話のセクション */
+/* スクリプトから挿入される各話のセクション */
 .story-section {
-  /* 縦書きなので、heightが「1行の長さ（高さ）」になります */
   height: 100%; 
   display: flex;
   flex-direction: column;
+  flex-shrink: 0; /* 本文やボタンが横に潰れるのを完全に防ぐ */
 }
 
-/* 小説のタイトル */
+/* 小説のタイトル（本文内の見出し） */
 .story-title {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin-left: 2rem; /* 縦書きなので、左側（次に来る本文側）に余白を作る */
-  line-height: 1.5;
+  color: #111111;
+  margin-left: 3.5rem; /* 縦書きなので、左側（次に来る本文側）に十分な余白を作る */
+  line-height: 1.3;
 }
 
 /* 小説の本文（段落） */
 .story-section p {
-  font-size: 1.1rem;
-  line-height: 2.0; /* 行間を広げて読みやすく */
-  margin-left: 1.5rem; /* 縦書きなので行と行の間隔になる */
-  letter-spacing: 0.05em;
+  font-size: 1.05rem;
+  line-height: 2.2; /* 行間をゆったり広げて電子書籍としての読みやすさを追求 */
+  margin-left: 1.8rem; /* 行と行の間隔（余白） */
+  letter-spacing: 0.06em;
+  text-align: justify; /* 文末を綺麗に揃える */
 }
 
-/* 「次の一話へ」ボタンのラッパー */
+/* 「次話へ」ボタンのラッパー */
 .next-story-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: 0 40px; /* 前後の余白 */
-  margin-left: 40px; /* 本文との間隔 */
+  padding: 0 60px; /* 前後の余白 */
+  margin-left: 60px; /* 本文との間隔 */
 }
 
 /* ボタン本体の見た目 */
 .next-story-btn {
-  /* 縦書き世界の中でも文字を読みやすくするための設定 */
-  writing-mode: horizontal-tb; /* ボタンの文字だけは横書きに戻す */
+  /* ボタン内の文字だけは読みやすく横書きに戻す */
+  writing-mode: horizontal-tb;
   -webkit-writing-mode: horizontal-tb;
   
   display: inline-block;
-  padding: 15px 30px;
-  background-color: #8b4513; /* 畑や麻をイメージした上品なブラウン */
+  padding: 16px 36px;
+  background-color: #8b4513; /* 高級感のあるブックカバー風ブラウン */
   color: #ffffff;
   text-decoration: none;
   border-radius: 8px;
   font-weight: bold;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.15);
   white-space: nowrap;
+  letter-spacing: 0.1em;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.next-story-btn:hover {
+  background-color: #a0522d;
+  transform: scale(1.03);
+}
+
+/* エラーメッセージ用 */
+.error-msg {
+  writing-mode: horizontal-tb;
+  -webkit-writing-mode: horizontal-tb;
+  padding: 40px;
+  color: #cc0000;
 }
