@@ -65,22 +65,22 @@ html, body {
 }
 
 /* 小説を包むコンテナ（固定ヘッダーの下に配置し、横スクロールさせる主役） */
+/* 小説を包むコンテナ */
 .novel-container {
   display: block;
   box-sizing: border-box;
   width: 100vw;
-  height: calc(100vh - 60px); /* 画面全体からヘッダーの高さを引く */
-  margin-top: 60px; /* ヘッダーに被らないようにマージンを確保 */
-  padding: 5vh 40px 8vh 40px; /* 上下の余白を画面比率で美しく確保 */
+  height: calc(100vh - 60px);
+  margin-top: 60px;
+  /* padding-top を 5vh から 「30px」 にして、ヘッダーとの間隔をしっかり固定 */
+  padding: 30px 40px 8vh 40px; 
   
-  /* 縦書き・右から左スクロールのモード */
   writing-mode: vertical-rl;
   -webkit-writing-mode: vertical-rl;
   
-  /* 横スクロールを有効化 */
   overflow-x: auto;
   overflow-y: hidden;
-  -webkit-overflow-scrolling: touch; /* スマホの慣性スクロール */
+  -webkit-overflow-scrolling: touch;
 }
 
 /* スクリプトから挿入される各話のセクション */
@@ -88,7 +88,9 @@ html, body {
   height: 100%; 
   display: flex;
   flex-direction: column;
-  flex-shrink: 0; /* 本文やボタンが横に潰れるのを完全に防ぐ */
+  flex-shrink: 0;
+  /* ★ここを追加：文字の頭（行頭）がヘッダーにぶつからないよう、内側にさらに15pxの余白を作る */
+  padding-top: 15px; 
 }
 
 /* 小説のタイトル（本文内の見出し） */
