@@ -8,6 +8,11 @@
 </head>
 <body class="viewer-page">
 
+  <header class="viewer-header">
+    <h1 class="viewer-header-title">ダンジョンと畑のあいだで</h1>
+    <a href="index.html" class="back-to-list-btn">← 一覧に戻る</a>
+  </header>
+
   <div class="novel-container" id="novel-container">
     </div>
 
@@ -16,7 +21,7 @@
       const container = document.getElementById('novel-container');
       if (!container) return;
 
-      // 1. URLから「?id=X」のパラメータを取得する（デフォルトは第1話）
+      // 1. URLからパラメータを取得する（デフォルトは第1話）
       const urlParams = new URLSearchParams(window.location.search);
       const storyId = parseInt(urlParams.get('id'), 10) || 1;
 
@@ -33,29 +38,24 @@
 
         const data = window.storyContent;
         
-        // 3. 本文のHTML組み立て（段落「p」を綺麗に並べる）
+        // 3. 本文のHTML組み立て
         let paragraphsHtml = '';
         data.paragraphs.forEach(p => {
           paragraphsHtml += `<p>${p}</p>`;
         });
 
-        // 4. 「次の話へ進むボタン」の制御（全30話以上の運用を見据えた動的ロジック）
-        // 次の話のID（現在のID + 1）
+        // 4. 「次話へ」進むボタンの制御（文言を「次話へ」に変更）
         const nextId = storyId + 1;
-        let nextButtonHtml = '';
-        
-        // 今回は30話以上を想定しているため、ひとまず最大値を気にせずボタンを出します。
-        // （もし最終話に到達した際にボタンを消したい場合は「if (nextId <= 35)」などの条件を挟んで制御します）
-        nextButtonHtml = `
+        let nextButtonHtml = `
           <div class="next-story-wrapper">
-            <a href="viewer.html?id=${nextId}" class="next-story-btn">次の一話へ</a>
+            <a href="viewer.html?id=${nextId}" class="next-story-btn">次話へ</a>
           </div>
         `;
 
-        // 5. 画面にすべてを流し込む（縦書きの世界へ！）
+        // 5. 画面にすべてを流し込む
         container.innerHTML = `
           <div class="story-section">
-            <h3 class="story-title">${data.title}</h3>
+            <h2 class="story-title">${data.title}</h2>
             ${paragraphsHtml}
             ${nextButtonHtml}
           </div>
@@ -63,7 +63,7 @@
       };
 
       script.onerror = () => {
-        container.innerHTML = '<p class="error-msg">該当するエピソード（ファイル）が見つかりません。</p>';
+        container.innerHTML = '<p class="error-msg">該当するエピソードが見つかりません。</p>';
       };
 
       // ドキュメントにスクリプトを差し込んでロードを開始
